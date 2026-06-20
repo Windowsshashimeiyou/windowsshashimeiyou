@@ -329,7 +329,7 @@
             transform: translateX(6px) rotate(-6deg);
         }
 
-        /* ===== 全局水波涟漪 ===== */
+        /* ===== 全局水波涟漪（小巧版） ===== */
         .ripple-global {
             position: fixed;
             border-radius: 50%;
@@ -347,19 +347,19 @@
             }
         }
 
-        /* ===== 并排卡片容器（两列） ===== */
+        /* ===== 并排卡片容器（三列） ===== */
         .row-cards {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
-            max-width: 1300px;
+            max-width: 1400px;
             width: 100%;
             justify-content: center;
         }
 
         .row-cards .card {
-            flex: 1 1 calc(50% - 30px);
-            min-width: 280px;
+            flex: 1 1 calc(33.333% - 30px);
+            min-width: 260px;
             max-width: 600px;
             padding: 40px 30px 36px;
         }
@@ -372,40 +372,18 @@
             font-size: 1.2rem;
         }
 
-        /* ===== 聊天室独立卡片（与主卡片同宽） ===== */
-        .card-chat-solo {
-            max-width: 620px;
-            width: 100%;
-            padding: 40px 30px 36px;
-        }
-        .card-chat-solo .sub-title {
-            font-size: 2.0rem;
-        }
-        .card-chat-solo .btn-link {
-            padding: 18px 48px;
-            font-size: 1.4rem;
-        }
-
         /* ===== 响应式 ===== */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .row-cards .card {
-                flex: 1 1 100%;
-                max-width: 600px;
-            }
-            .card-chat-solo {
-                padding: 28px 20px 28px;
-            }
-            .card-chat-solo .sub-title {
-                font-size: 1.5rem;
-            }
-            .card-chat-solo .btn-link {
-                font-size: 1.1rem;
-                padding: 14px 20px;
-                width: 100%;
+                flex: 1 1 calc(50% - 30px);
             }
         }
 
         @media (max-width: 640px) {
+            .row-cards .card {
+                flex: 1 1 100%;
+                max-width: 600px;
+            }
             body {
                 padding: 20px 16px 40px;
                 gap: 30px;
@@ -447,17 +425,6 @@
             .image-wrapper::after {
                 border-radius: 24px;
             }
-            .card-chat-solo {
-                padding: 28px 20px 28px;
-            }
-            .card-chat-solo .sub-title {
-                font-size: 1.5rem;
-            }
-            .card-chat-solo .btn-link {
-                font-size: 1.1rem;
-                padding: 14px 20px;
-                width: 100%;
-            }
         }
 
         @media (max-width: 400px) {
@@ -484,17 +451,6 @@
             }
             .row-cards .card {
                 padding: 20px 14px 20px;
-            }
-            .card-chat-solo {
-                padding: 20px 14px 20px;
-            }
-            .card-chat-solo .sub-title {
-                font-size: 1.2rem;
-            }
-            .card-chat-solo .btn-link {
-                font-size: 0.95rem;
-                padding: 12px 16px;
-                width: 100%;
             }
         }
 
@@ -532,7 +488,7 @@
         </a>
     </div>
 
-    <!-- ===== 并排卡片：仙境生存系列 + 音乐歌词系列 ===== -->
+    <!-- ===== 并排卡片：仙境生存系列 + 音乐歌词系列 + 聊天室 ===== -->
     <div class="row-cards">
         <!-- 仙境生存系列 -->
         <div class="card card-fairy">
@@ -549,20 +505,20 @@
                 <span class="btn-text">点击进入 音乐歌词系列</span>
             </a>
         </div>
-    </div>
 
-    <!-- ===== 聊天室（单独一行） ===== -->
-    <div class="card card-chat card-chat-solo">
-        <h2 class="sub-title">聊天室</h2>
-        <!-- 请将 href="#" 替换为您的真实聊天室链接 -->
-        <a href="https://dingdang-chat.fucku.top/" target="_blank" rel="noopener noreferrer" class="btn-link">
-            <span class="btn-text">进入聊天室</span>
-        </a>
+        <!-- 聊天室 -->
+        <div class="card card-chat">
+            <h2 class="sub-title">聊天室</h2>
+            <!-- 请将 href="#" 替换为您的真实聊天室链接 -->
+            <a href="https://dingdang-chat.fucku.top/" target="_blank" rel="noopener noreferrer" class="btn-link">
+                <span class="btn-text">进入聊天室</span>
+            </a>
+        </div>
     </div>
 
     <script>
         (function() {
-            // ===== 全局水波涟漪 =====
+            // ===== 全局水波涟漪（小巧版） =====
             function createRipple(x, y) {
                 const size = 50;
                 const ripple = document.createElement('span');
@@ -581,10 +537,11 @@
                 createRipple(e.clientX, e.clientY);
             });
 
-            // ===== 按钮跳转逻辑 =====
+            // ===== 按钮跳转逻辑（保留水波） =====
             document.querySelectorAll('.btn-link').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
+                    // 如果链接是 # 或空，不跳转，仅显示涟漪
                     if (!href || href === '#' || href === '') {
                         e.preventDefault();
                         return;
