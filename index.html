@@ -15,13 +15,15 @@
         body {
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: flex-start; /* 从顶部开始，允许滚动 */
             background: linear-gradient(145deg, #0b0e1a 0%, #1a1f33 100%);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 20px;
+            padding: 40px 20px 60px;
             position: relative;
             overflow-x: hidden;
+            gap: 40px; /* 区块间距 */
         }
 
         /* ===== 背景装饰光晕 ===== */
@@ -61,7 +63,7 @@
             }
         }
 
-        /* ===== 主卡片 ===== */
+        /* ===== 通用卡片样式 ===== */
         .card {
             position: relative;
             z-index: 1;
@@ -139,7 +141,45 @@
             }
         }
 
-        /* ===== 图片容器（圆角 + 动画） ===== */
+        /* ===== 副标题（仙境生存系列） ===== */
+        .sub-title {
+            font-size: 2.0rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+            text-shadow: 0 2px 15px rgba(123, 74, 247, 0.20);
+            margin-bottom: 28px;
+            position: relative;
+            display: inline-block;
+            padding: 0 8px;
+        }
+
+        .sub-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #7b4af7, #4a6cf7, transparent);
+            border-radius: 4px;
+            animation: subUnderline 4s ease-in-out infinite;
+        }
+
+        @keyframes subUnderline {
+            0%,
+            100% {
+                width: 20%;
+                opacity: 0.4;
+            }
+            50% {
+                width: 70%;
+                opacity: 1;
+            }
+        }
+
+        /* ===== 图片容器 ===== */
         .image-wrapper {
             position: relative;
             border-radius: 32px;
@@ -192,7 +232,6 @@
             }
         }
 
-        /* ===== 图片上的光晕装饰 ===== */
         .image-wrapper::after {
             content: '';
             position: absolute;
@@ -210,7 +249,7 @@
             opacity: 0.5;
         }
 
-        /* ===== 按钮 / 链接 ===== */
+        /* ===== 按钮样式（共用） ===== */
         .btn-link {
             display: inline-block;
             text-decoration: none;
@@ -283,14 +322,34 @@
             transform: translateX(6px) rotate(-6deg);
         }
 
+        /* ===== 第二个卡片（仙境生存系列）略微精简，无图片 ===== */
+        .card-secondary {
+            padding: 40px 40px 36px;
+            /* 与主卡片风格一致，但无图片 */
+        }
+
+        .card-secondary .sub-title {
+            margin-bottom: 28px;
+        }
+
         /* ===== 响应式 ===== */
         @media (max-width: 640px) {
+            body {
+                padding: 20px 16px 40px;
+                gap: 30px;
+            }
             .card {
                 padding: 28px 20px 28px;
                 border-radius: 32px;
             }
+            .card-secondary {
+                padding: 28px 20px 28px;
+            }
             .main-title {
                 font-size: 1.8rem;
+            }
+            .sub-title {
+                font-size: 1.5rem;
             }
             .btn-link {
                 padding: 14px 32px;
@@ -321,6 +380,9 @@
             .main-title {
                 font-size: 1.4rem;
             }
+            .sub-title {
+                font-size: 1.2rem;
+            }
             .btn-link {
                 font-size: 0.95rem;
                 padding: 12px 20px;
@@ -328,6 +390,9 @@
             .card {
                 padding: 20px 14px 20px;
                 border-radius: 24px;
+            }
+            .card-secondary {
+                padding: 20px 14px 20px;
             }
         }
 
@@ -354,18 +419,23 @@
 </head>
 <body>
 
+    <!-- ===== 主卡片：Windows啥事没有 ===== -->
     <div class="card">
-        <!-- 主标题 -->
         <h1 class="main-title">Windows啥事没有</h1>
-
-        <!-- 图片（圆角 + 动画） -->
         <div class="image-wrapper">
             <img src="windowsshashimeiyou.webp" alt="Windows啥事没有" loading="lazy" />
         </div>
-
-        <!-- 链接按钮 -->
         <a href="https://www.douyin.com/user/MS4wLjABAAAASpHTYgJqcLftDkBTflQ7csLPK8XSy3lTel13HCP4kG8lB3YsO3eI3xzDm-PMPsqA?from_tab_name=main" target="_blank" rel="noopener noreferrer" class="btn-link">
             <span class="btn-text">点击进入 Windows啥事没有 抖音</span>
+        </a>
+    </div>
+
+    <!-- ===== 新卡片：仙境生存系列 ===== -->
+    <div class="card card-secondary">
+        <h2 class="sub-title">仙境生存系列</h2>
+        <!-- 按钮与上方风格一致，链接暂用相同地址，可根据需要修改 -->
+        <a href="https://www.douyin.com/user/MS4wLjABAAAASpHTYgJqcLftDkBTflQ7csLPK8XSy3lTel13HCP4kG8lB3YsO3eI3xzDm-PMPsqA?from_tab_name=main&modal_id=7649312049574563114&showSubTab=compilation" target="_blank" rel="noopener noreferrer" class="btn-link">
+            <span class="btn-text">点击进入 仙境生存系列</span>
         </a>
     </div>
 
