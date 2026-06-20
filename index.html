@@ -140,7 +140,6 @@
             background-size: 300% 100%;
         }
 
-        /* 每个卡片可自定义下划线颜色顺序，这里我们用不同的组合 */
         .card-fairy .sub-title::after {
             background: linear-gradient(90deg, #ffb900, #ff0000, #00a650, #0078d7);
         }
@@ -238,7 +237,7 @@
             opacity: 0.5;
         }
 
-        /* ===== 按钮样式 ===== */
+        /* ===== 按钮样式（无内部涟漪，仅样式） ===== */
         .btn-link {
             display: inline-block;
             text-decoration: none;
@@ -257,6 +256,8 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            user-select: none;
         }
 
         @keyframes btnGradient {
@@ -325,6 +326,24 @@
             transform: translateX(6px) rotate(-6deg);
         }
 
+        /* ===== 全局水波涟漪（小巧版） ===== */
+        .ripple-global {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            transform: scale(0);
+            animation: rippleGlobalAnim 0.6s ease-out forwards;
+        }
+
+        @keyframes rippleGlobalAnim {
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
         /* ===== 并排卡片容器 ===== */
         .row-cards {
             display: flex;
@@ -342,7 +361,6 @@
             padding: 40px 30px 36px;
         }
 
-        /* 为了让两个卡片更紧凑，调整内边距 */
         .row-cards .card .sub-title {
             font-size: 1.8rem;
         }
@@ -482,6 +500,41 @@
             </a>
         </div>
     </div>
+
+    <script>
+        (function() {
+            // ===== 全局水波涟漪（小巧版） =====
+            function createRipple(x, y) {
+                const size = 50; // 更小的涟漪尺寸
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-global';
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (x - size / 2) + 'px';
+                ripple.style.top = (y - size / 2) + 'px';
+                document.body.appendChild(ripple);
+
+                setTimeout(() => {
+                    if (ripple.parentNode) ripple.remove();
+                }, 700);
+            }
+
+            document.addEventListener('click', function(e) {
+                createRipple(e.clientX, e.clientY);
+            });
+
+            // ===== 按钮跳转逻辑（保留水波） =====
+            document.querySelectorAll('.btn-link').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    const target = this.getAttribute('target') || '_self';
+                    setTimeout(() => {
+                        window.open(href, target);
+                    }, 350);
+                });
+            });
+        })();
+    </script>
 
 </body>
 </html>
