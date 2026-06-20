@@ -17,79 +17,45 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* 从顶部开始，允许滚动 */
-            background: linear-gradient(145deg, #0b0e1a 0%, #1a1f33 100%);
+            justify-content: flex-start;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 40px 20px 60px;
+            gap: 40px;
+            background-image: url('微信图片_20260511210956_45_8.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #0b0e1a;
             position: relative;
-            overflow-x: hidden;
-            gap: 40px; /* 区块间距 */
+            overflow-x: auto;
         }
 
-        /* ===== 背景装饰光晕 ===== */
-        body::before,
-        body::after {
-            content: '';
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.25;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatGlow 12s ease-in-out infinite alternate;
-        }
-        body::before {
-            width: 500px;
-            height: 500px;
-            background: #4a6cf7;
-            top: -100px;
-            left: -100px;
-        }
-        body::after {
-            width: 600px;
-            height: 600px;
-            background: #7b4af7;
-            bottom: -150px;
-            right: -150px;
-            animation-delay: 4s;
-        }
-
-        @keyframes floatGlow {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                transform: translate(60px, 40px) scale(1.2);
-            }
-        }
-
-        /* ===== 通用卡片样式 ===== */
+        /* ===== 卡片样式（完全透明） ===== */
         .card {
             position: relative;
             z-index: 1;
             max-width: 620px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(24px) saturate(1.4);
-            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
             border-radius: 48px;
             padding: 48px 40px 40px;
             box-shadow:
-                0 40px 80px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-                0 0 0 1px rgba(255, 255, 255, 0.03);
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.10) inset;
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
                 box-shadow 0.5s ease;
             animation: cardEntrance 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .card:hover {
             transform: translateY(-6px) scale(1.01);
             box-shadow:
-                0 60px 100px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.10) inset;
+                0 60px 100px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.15) inset;
         }
 
         @keyframes cardEntrance {
@@ -109,7 +75,7 @@
             font-weight: 700;
             letter-spacing: -0.02em;
             color: #ffffff;
-            text-shadow: 0 2px 20px rgba(74, 108, 247, 0.25);
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0,0,0,0.5);
             margin-bottom: 28px;
             position: relative;
             display: inline-block;
@@ -124,30 +90,37 @@
             transform: translateX(-50%);
             width: 60%;
             height: 3px;
-            background: linear-gradient(90deg, transparent, #4a6cf7, #7b4af7, transparent);
+            background: linear-gradient(90deg, #ff0000, #00a650, #0078d7, #ffb900);
             border-radius: 4px;
             animation: titleUnderline 3s ease-in-out infinite;
+            background-size: 300% 100%;
         }
 
         @keyframes titleUnderline {
-            0%,
-            100% {
+            0% {
                 width: 30%;
                 opacity: 0.5;
+                background-position: 0% 50%;
             }
             50% {
                 width: 80%;
                 opacity: 1;
+                background-position: 100% 50%;
+            }
+            100% {
+                width: 30%;
+                opacity: 0.5;
+                background-position: 0% 50%;
             }
         }
 
-        /* ===== 副标题（仙境生存系列） ===== */
+        /* ===== 副标题（用于并排卡片） ===== */
         .sub-title {
             font-size: 2.0rem;
             font-weight: 600;
             letter-spacing: -0.01em;
             color: #ffffff;
-            text-shadow: 0 2px 15px rgba(123, 74, 247, 0.20);
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0,0,0,0.5);
             margin-bottom: 28px;
             position: relative;
             display: inline-block;
@@ -162,20 +135,34 @@
             transform: translateX(-50%);
             width: 50%;
             height: 3px;
-            background: linear-gradient(90deg, transparent, #7b4af7, #4a6cf7, transparent);
             border-radius: 4px;
             animation: subUnderline 4s ease-in-out infinite;
+            background-size: 300% 100%;
+        }
+
+        /* 每个卡片可自定义下划线颜色顺序，这里我们用不同的组合 */
+        .card-fairy .sub-title::after {
+            background: linear-gradient(90deg, #ffb900, #ff0000, #00a650, #0078d7);
+        }
+        .card-music .sub-title::after {
+            background: linear-gradient(90deg, #0078d7, #ffb900, #ff0000, #00a650);
         }
 
         @keyframes subUnderline {
-            0%,
-            100% {
+            0% {
                 width: 20%;
                 opacity: 0.4;
+                background-position: 0% 50%;
             }
             50% {
                 width: 70%;
                 opacity: 1;
+                background-position: 100% 50%;
+            }
+            100% {
+                width: 20%;
+                opacity: 0.4;
+                background-position: 0% 50%;
             }
         }
 
@@ -192,7 +179,7 @@
         }
 
         .image-wrapper:hover {
-            box-shadow: 0 30px 70px rgba(74, 108, 247, 0.25);
+            box-shadow: 0 30px 70px rgba(0, 120, 215, 0.25);
         }
 
         @keyframes imageFloat {
@@ -238,9 +225,11 @@
             inset: 0;
             border-radius: 32px;
             background: linear-gradient(135deg,
-                    rgba(74, 108, 247, 0.08) 0%,
-                    transparent 50%,
-                    rgba(123, 74, 247, 0.06) 100%);
+                    rgba(255, 0, 0, 0.08) 0%,
+                    rgba(0, 166, 80, 0.06) 25%,
+                    rgba(0, 120, 215, 0.08) 50%,
+                    rgba(255, 185, 0, 0.06) 75%,
+                    transparent 100%);
             pointer-events: none;
             transition: opacity 0.6s ease;
         }
@@ -249,25 +238,37 @@
             opacity: 0.5;
         }
 
-        /* ===== 按钮样式（共用） ===== */
+        /* ===== 按钮样式 ===== */
         .btn-link {
             display: inline-block;
             text-decoration: none;
             padding: 18px 48px;
             border-radius: 60px;
-            background: linear-gradient(135deg, #4a6cf7, #7b4af7);
+            background: linear-gradient(135deg, #ff0000, #00a650, #0078d7, #ffb900);
+            background-size: 300% 300%;
+            animation: btnGradient 6s ease infinite;
             color: #fff;
             font-size: 1.4rem;
             font-weight: 600;
             letter-spacing: 0.02em;
-            box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.4s ease,
-                background 0.4s ease;
+                box-shadow 0.4s ease;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            animation: btnPulse 2.8s ease-in-out infinite;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        @keyframes btnGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .btn-link::before {
@@ -282,23 +283,25 @@
 
         .btn-link:hover {
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(74, 108, 247, 0.5);
-            background: linear-gradient(135deg, #5a7cff, #8a5aff);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: btnHoverGradient 1.5s ease infinite;
+        }
+
+        @keyframes btnHoverGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .btn-link:active {
             transform: scale(0.96);
-            box-shadow: 0 8px 30px rgba(74, 108, 247, 0.3);
-        }
-
-        @keyframes btnPulse {
-            0%,
-            100% {
-                box-shadow: 0 12px 40px rgba(74, 108, 247, 0.35);
-            }
-            50% {
-                box-shadow: 0 12px 60px rgba(74, 108, 247, 0.55), 0 0 80px rgba(74, 108, 247, 0.10);
-            }
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .btn-link .btn-text {
@@ -322,17 +325,40 @@
             transform: translateX(6px) rotate(-6deg);
         }
 
-        /* ===== 第二个卡片（仙境生存系列）略微精简，无图片 ===== */
-        .card-secondary {
-            padding: 40px 40px 36px;
-            /* 与主卡片风格一致，但无图片 */
+        /* ===== 并排卡片容器 ===== */
+        .row-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1300px;
+            width: 100%;
+            justify-content: center;
         }
 
-        .card-secondary .sub-title {
-            margin-bottom: 28px;
+        .row-cards .card {
+            flex: 1 1 calc(50% - 30px);
+            min-width: 280px;
+            max-width: 600px;
+            padding: 40px 30px 36px;
+        }
+
+        /* 为了让两个卡片更紧凑，调整内边距 */
+        .row-cards .card .sub-title {
+            font-size: 1.8rem;
+        }
+        .row-cards .card .btn-link {
+            padding: 14px 32px;
+            font-size: 1.2rem;
         }
 
         /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .row-cards .card {
+                flex: 1 1 100%;
+                max-width: 600px;
+            }
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 20px 16px 40px;
@@ -342,7 +368,7 @@
                 padding: 28px 20px 28px;
                 border-radius: 32px;
             }
-            .card-secondary {
+            .row-cards .card {
                 padding: 28px 20px 28px;
             }
             .main-title {
@@ -351,10 +377,17 @@
             .sub-title {
                 font-size: 1.5rem;
             }
+            .row-cards .card .sub-title {
+                font-size: 1.5rem;
+            }
             .btn-link {
                 padding: 14px 32px;
                 font-size: 1.1rem;
                 width: 100%;
+            }
+            .row-cards .card .btn-link {
+                font-size: 1.1rem;
+                padding: 14px 20px;
             }
             .btn-link .btn-text::after {
                 font-size: 1.3rem;
@@ -368,12 +401,6 @@
             .image-wrapper::after {
                 border-radius: 24px;
             }
-            body::before,
-            body::after {
-                width: 300px;
-                height: 300px;
-                filter: blur(80px);
-            }
         }
 
         @media (max-width: 400px) {
@@ -383,20 +410,27 @@
             .sub-title {
                 font-size: 1.2rem;
             }
+            .row-cards .card .sub-title {
+                font-size: 1.2rem;
+            }
             .btn-link {
                 font-size: 0.95rem;
                 padding: 12px 20px;
+            }
+            .row-cards .card .btn-link {
+                font-size: 0.95rem;
+                padding: 12px 16px;
             }
             .card {
                 padding: 20px 14px 20px;
                 border-radius: 24px;
             }
-            .card-secondary {
+            .row-cards .card {
                 padding: 20px 14px 20px;
             }
         }
 
-        /* ===== 减少动画（用户偏好） ===== */
+        /* ===== 减少动画 ===== */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -430,13 +464,23 @@
         </a>
     </div>
 
-    <!-- ===== 新卡片：仙境生存系列 ===== -->
-    <div class="card card-secondary">
-        <h2 class="sub-title">仙境生存系列</h2>
-        <!-- 按钮与上方风格一致，链接暂用相同地址，可根据需要修改 -->
-        <a href="https://www.douyin.com/user/MS4wLjABAAAASpHTYgJqcLftDkBTflQ7csLPK8XSy3lTel13HCP4kG8lB3YsO3eI3xzDm-PMPsqA?from_tab_name=main&modal_id=7649312049574563114&showSubTab=compilation" target="_blank" rel="noopener noreferrer" class="btn-link">
-            <span class="btn-text">点击进入 仙境生存系列</span>
-        </a>
+    <!-- ===== 并排卡片：仙境生存系列 + 音乐歌词系列 ===== -->
+    <div class="row-cards">
+        <!-- 仙境生存系列 -->
+        <div class="card card-fairy">
+            <h2 class="sub-title">仙境生存系列</h2>
+            <a href="https://www.douyin.com/user/self?from_tab_name=main&modal_id=7649312049574563114&showSubTab=compilation" target="_blank" rel="noopener noreferrer" class="btn-link">
+                <span class="btn-text">点击进入 仙境生存系列</span>
+            </a>
+        </div>
+
+        <!-- 音乐歌词系列 -->
+        <div class="card card-music">
+            <h2 class="sub-title">音乐歌词系列</h2>
+            <a href="https://www.douyin.com/user/self?from_tab_name=main&modal_id=7634063664500215082&showSubTab=compilation" target="_blank" rel="noopener noreferrer" class="btn-link">
+                <span class="btn-text">点击进入 音乐歌词系列</span>
+            </a>
+        </div>
     </div>
 
 </body>
