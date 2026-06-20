@@ -146,6 +146,9 @@
         .card-music .sub-title::after {
             background: linear-gradient(90deg, #0078d7, #ffb900, #ff0000, #00a650);
         }
+        .card-chat .sub-title::after {
+            background: linear-gradient(90deg, #00a650, #0078d7, #ffb900, #ff0000);
+        }
 
         @keyframes subUnderline {
             0% {
@@ -237,7 +240,7 @@
             opacity: 0.5;
         }
 
-        /* ===== 按钮样式（无内部涟漪，仅样式） ===== */
+        /* ===== 按钮样式 ===== */
         .btn-link {
             display: inline-block;
             text-decoration: none;
@@ -326,7 +329,7 @@
             transform: translateX(6px) rotate(-6deg);
         }
 
-        /* ===== 全局水波涟漪（小巧版） ===== */
+        /* ===== 全局水波涟漪 ===== */
         .ripple-global {
             position: fixed;
             border-radius: 50%;
@@ -344,7 +347,7 @@
             }
         }
 
-        /* ===== 并排卡片容器 ===== */
+        /* ===== 并排卡片容器（两列） ===== */
         .row-cards {
             display: flex;
             flex-wrap: wrap;
@@ -369,11 +372,36 @@
             font-size: 1.2rem;
         }
 
+        /* ===== 聊天室独立卡片（与主卡片同宽） ===== */
+        .card-chat-solo {
+            max-width: 620px;
+            width: 100%;
+            padding: 40px 30px 36px;
+        }
+        .card-chat-solo .sub-title {
+            font-size: 2.0rem;
+        }
+        .card-chat-solo .btn-link {
+            padding: 18px 48px;
+            font-size: 1.4rem;
+        }
+
         /* ===== 响应式 ===== */
         @media (max-width: 768px) {
             .row-cards .card {
                 flex: 1 1 100%;
                 max-width: 600px;
+            }
+            .card-chat-solo {
+                padding: 28px 20px 28px;
+            }
+            .card-chat-solo .sub-title {
+                font-size: 1.5rem;
+            }
+            .card-chat-solo .btn-link {
+                font-size: 1.1rem;
+                padding: 14px 20px;
+                width: 100%;
             }
         }
 
@@ -419,6 +447,17 @@
             .image-wrapper::after {
                 border-radius: 24px;
             }
+            .card-chat-solo {
+                padding: 28px 20px 28px;
+            }
+            .card-chat-solo .sub-title {
+                font-size: 1.5rem;
+            }
+            .card-chat-solo .btn-link {
+                font-size: 1.1rem;
+                padding: 14px 20px;
+                width: 100%;
+            }
         }
 
         @media (max-width: 400px) {
@@ -445,6 +484,17 @@
             }
             .row-cards .card {
                 padding: 20px 14px 20px;
+            }
+            .card-chat-solo {
+                padding: 20px 14px 20px;
+            }
+            .card-chat-solo .sub-title {
+                font-size: 1.2rem;
+            }
+            .card-chat-solo .btn-link {
+                font-size: 0.95rem;
+                padding: 12px 16px;
+                width: 100%;
             }
         }
 
@@ -501,11 +551,20 @@
         </div>
     </div>
 
+    <!-- ===== 聊天室（单独一行） ===== -->
+    <div class="card card-chat card-chat-solo">
+        <h2 class="sub-title">聊天室</h2>
+        <!-- 请将 href="#" 替换为您的真实聊天室链接 -->
+        <a href="https://dingdang-chat.fucku.top/" target="_blank" rel="noopener noreferrer" class="btn-link">
+            <span class="btn-text">进入聊天室</span>
+        </a>
+    </div>
+
     <script>
         (function() {
-            // ===== 全局水波涟漪（小巧版） =====
+            // ===== 全局水波涟漪 =====
             function createRipple(x, y) {
-                const size = 50; // 更小的涟漪尺寸
+                const size = 50;
                 const ripple = document.createElement('span');
                 ripple.className = 'ripple-global';
                 ripple.style.width = ripple.style.height = size + 'px';
@@ -522,11 +581,15 @@
                 createRipple(e.clientX, e.clientY);
             });
 
-            // ===== 按钮跳转逻辑（保留水波） =====
+            // ===== 按钮跳转逻辑 =====
             document.querySelectorAll('.btn-link').forEach(btn => {
                 btn.addEventListener('click', function(e) {
-                    e.preventDefault();
                     const href = this.getAttribute('href');
+                    if (!href || href === '#' || href === '') {
+                        e.preventDefault();
+                        return;
+                    }
+                    e.preventDefault();
                     const target = this.getAttribute('target') || '_self';
                     setTimeout(() => {
                         window.open(href, target);
